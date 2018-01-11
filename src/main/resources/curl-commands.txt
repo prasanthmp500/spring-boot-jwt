@@ -10,7 +10,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 
 curl -i -H "Content-Type: application/json" -X POST -d '{
   "user-name": "gracehopper",
-  "user-password": "gracehopper",
+  "user-password": "gracehopper"
 }' http://localhost:8080/users/login
 
 

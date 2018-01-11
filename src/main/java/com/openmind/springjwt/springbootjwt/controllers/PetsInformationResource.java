@@ -3,9 +3,11 @@ package com.openmind.springjwt.springbootjwt.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -25,7 +27,7 @@ public class PetsInformationResource {
 	private PetRepository petRepository;
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response showAllPets() {
 
 		try {
@@ -39,8 +41,9 @@ public class PetsInformationResource {
 				allPets.add(entity);
 
 			});
-
-			return Response.ok(allPets).build();
+			
+			GenericEntity<List<Pet>> entity = new GenericEntity<List<Pet>>(allPets) {};
+			return Response.ok(entity).build();
 		} catch (Exception e) {
 			return Response.serverError().status(Status.ERROR).build();
 		}
