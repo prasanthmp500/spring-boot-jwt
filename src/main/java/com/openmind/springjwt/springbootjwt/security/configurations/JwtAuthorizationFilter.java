@@ -29,6 +29,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
+		try {
+		
 		String header = request.getHeader(SecurityConstants.HEADER_STRING);
 		
 		if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
@@ -49,6 +51,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		} else {
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}
+		
+		}catch(Exception e ) {
+			
+			SecurityContextHolder.clearContext();
+			response.sendError(response.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+			return;
+		}
+		
+		
+		
 		chain.doFilter(request, response);
 	}
 	
