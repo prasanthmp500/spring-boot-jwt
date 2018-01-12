@@ -3,27 +3,24 @@ package com.openmind.springjwt.springbootjwt.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.openmind.springjwt.domain.User;
-import com.openmind.springjwt.domain.Users;
+import com.openmind.springjwt.springbootjwt.domain.User;
+import com.openmind.springjwt.springbootjwt.domain.Users;
 import com.openmind.springjwt.springbootjwt.jpa.repository.UserRepository;
 
-import ch.qos.logback.core.status.Status;
 
-@Component
-@Path("users")
+@RestController
+@RequestMapping("users")
 public class UserControllerResource {
 
 	@Autowired(required = true)
@@ -33,16 +30,13 @@ public class UserControllerResource {
 	@Qualifier("bcrypPasswordEncoder")
 	private BCryptPasswordEncoder encoder;
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showAllUsers() {
+	@GetMapping(produces= { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+	public ResponseEntity<?> showAllUsers() {
 
 		try {
 
 			final List<User> allUsers = new ArrayList<User>();
-
 			Iterable<com.openmind.springjwt.springbootjwt.jpa.entities.User> users = userRepository.findAll();
-
 			users.forEach((entity) -> {
 
 				User user = new User();
@@ -51,24 +45,20 @@ public class UserControllerResource {
 				user.setPassword(entity.getPassword());
 				user.setAuthorities(entity.getAuthorities());
 				allUsers.add(user);
-				
 			});
 			
 			Users allSystemUsers =  new Users();
 			allSystemUsers.setUsers(allUsers);
-			return Response.ok(allSystemUsers).build();
+			return new ResponseEntity<Users>(allSystemUsers, HttpStatus.OK);
 		} catch (Exception e) {
-			return Response.serverError().status(Status.ERROR).build();
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
-	@POST
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("/create")
-	public Response createUser(User user) {
-
+	@PostMapping(path="/create",consumes= { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE },
+			produces= { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+	public  ResponseEntity<?> createUser(User user) {
+		
 		com.openmind.springjwt.springbootjwt.jpa.entities.User entity = new com.openmind.springjwt.springbootjwt.jpa.entities.User();
 		entity.setName(user.getUserName());
 		entity.setPassword(encoder.encode(user.getPassword()));
@@ -81,29 +71,24 @@ public class UserControllerResource {
 			user.setUserName(newUser.getName());
 			user.setPassword("");
 			user.setAuthorities(newUser.getAuthorities());
-
-			return Response.ok(user).build();
+			
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 
 		} catch (RuntimeException e) {
-			return Response.status(Status.ERROR).build();
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
-	
-	
-	@POST
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("/login")
-	public Response loginUser(User user) {
+
+	@PostMapping(path="/login",consumes= {  MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE },
+			produces= { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+	public ResponseEntity<?> loginUser(User user) {
 
 		try {
-			return Response.ok("login success").build();
-
+			return new ResponseEntity<>("login success", HttpStatus.OK);
 		} catch (RuntimeException e) {
-			return Response.status(Status.ERROR).build();
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
 }

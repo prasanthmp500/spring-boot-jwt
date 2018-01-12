@@ -56,7 +56,6 @@ class JpaConfiguration {
 	 return dataSource;
  }
 	
-	
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 

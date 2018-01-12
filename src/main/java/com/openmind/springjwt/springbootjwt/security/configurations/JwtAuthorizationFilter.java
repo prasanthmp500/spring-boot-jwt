@@ -1,5 +1,9 @@
 package com.openmind.springjwt.springbootjwt.security.configurations;
 
+import static com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants.HEADER_STRING;
+import static com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants.SECRET;
+import static com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants.TOKEN_PREFIX;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,7 +19,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openmind.springjwt.springbootjwt.rest.errors.Error;
-import com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants;
 
 import io.jsonwebtoken.Jwts;
 
@@ -33,15 +36,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 		try {
 
-			String header = request.getHeader(SecurityConstants.HEADER_STRING);
+			String header = request.getHeader(HEADER_STRING);
 
-			if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+			if (header == null || !header.startsWith(TOKEN_PREFIX)) {
 				chain.doFilter(request, response);
 				return;
 			}
 
-			String user = Jwts.parser().setSigningKey(SecurityConstants.SECRET)
-					.parseClaimsJws(header.replaceAll(SecurityConstants.TOKEN_PREFIX, "")).getBody().getSubject();
+			String user = Jwts.parser().setSigningKey(SECRET)
+					.parseClaimsJws(header.replaceAll(TOKEN_PREFIX, "")).getBody().getSubject();
 
 			if (user != null) {
 				UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(user, null,

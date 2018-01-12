@@ -1,5 +1,10 @@
 package com.openmind.springjwt.springbootjwt.security.configurations;
 
+import static com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants.EXPIRATION_TIME;
+import static com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants.HEADER_STRING;
+import static com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants.SECRET;
+import static com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants.TOKEN_PREFIX;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collections;
@@ -19,17 +24,16 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openmind.springjwt.springbootjwt.security.utils.SecurityConstants;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
-	
-	
+
 	private AuthenticationManager authenticationManager;
 
-	protected JwtLoginFilter(AuthenticationManager authenticationManager, RequestMatcher requiresAuthenticationRequestMatcher) {
+	protected JwtLoginFilter(AuthenticationManager authenticationManager,
+			RequestMatcher requiresAuthenticationRequestMatcher) {
 		super(requiresAuthenticationRequestMatcher);
 		this.authenticationManager = authenticationManager;
 	}
@@ -46,27 +50,26 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 			sbf.append(line);
 		}
 		ObjectMapper objectMapper = new ObjectMapper();
-		
-		objectMapper.readValue(sbf.toString().getBytes(), com.openmind.springjwt.domain.User.class);
-		
-		com.openmind.springjwt.domain.User user = objectMapper.readValue(sbf.toString().getBytes(), com.openmind.springjwt.domain.User.class);
+
+		objectMapper.readValue(sbf.toString().getBytes(), com.openmind.springjwt.springbootjwt.domain.User.class);
+
+		com.openmind.springjwt.springbootjwt.domain.User user = objectMapper.readValue(sbf.toString().getBytes(),
+				com.openmind.springjwt.springbootjwt.domain.User.class);
 
 		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(),
 				user.getPassword(), Collections.EMPTY_LIST));
 	}
-	
+
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-	
-		String jwtToken = Jwts.builder().
-		 setSubject(((User)authResult.getPrincipal()).getUsername() ).
-		 setExpiration( new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-		 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
-		 .compact();
-		
-	  response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + jwtToken); 
-	  
+
+		String jwtToken = Jwts.builder().setSubject(((User) authResult.getPrincipal()).getUsername())
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
+
+		response.addHeader(HEADER_STRING, TOKEN_PREFIX + jwtToken);
+
 	}
 
 }
