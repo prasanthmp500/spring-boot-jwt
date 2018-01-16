@@ -16,13 +16,21 @@ public class Pet {
 	
 	public Pet() {
 	}
-		
+	
+	public Pet( String name, String type) {
+		super();
+		this.name = name;
+		this.type = type;
+	}
+	
 	public Pet(int id, String name, String type) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.type = type;
 	}
+	
+	
 	
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
