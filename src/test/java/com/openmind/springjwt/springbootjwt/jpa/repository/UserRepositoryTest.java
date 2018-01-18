@@ -31,7 +31,7 @@ public class UserRepositoryTest {
 	public void testFindByName() {
 		
 		User user = userRepository.findByName("testuser");
-		assertThat(user!=null);
+		assertThat(user).isNotNull();
 		
 	}
 	

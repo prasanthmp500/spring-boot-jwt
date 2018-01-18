@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Autowired
-	@Qualifier("bcrypPasswordEncoder")
+	@Qualifier("bcryptPasswordEncoder")
 	public void setEncoder(BCryptPasswordEncoder encoder) {
 		this.encoder = encoder;
 	}
@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Users findAll() {
 
-		final List<User> allUsers = new ArrayList<User>();
+		final List<User> allUsers = new ArrayList<>();
 
-		userRepository.findAll().forEach((entity) -> {
+		userRepository.findAll().forEach(entity -> {
 
 			User user = new User();
 			user.setId(entity.getId());

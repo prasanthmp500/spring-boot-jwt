@@ -57,7 +57,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 				com.openmind.springjwt.springbootjwt.domain.User.class);
 
 		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(),
-				user.getPassword(), Collections.EMPTY_LIST));
+				user.getPassword(), Collections.emptyList()));
 	}
 
 	@Override

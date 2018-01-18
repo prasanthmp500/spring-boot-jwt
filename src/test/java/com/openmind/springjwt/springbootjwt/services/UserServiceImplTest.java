@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,6 +40,7 @@ public class UserServiceImplTest {
 	private UserService userService;
 	
 	@Autowired
+	@Qualifier("bcryptPasswordEncoder")
 	private BCryptPasswordEncoder passwordEncoder; 
 	
 	@Test
@@ -49,9 +51,9 @@ public class UserServiceImplTest {
 		users.add(factory.manufacturePojo(User.class));
 	    when(userRepository.findAll()).thenReturn(users);
 	    Users usrs =  userService.findAll();
-		assertThat(usrs != null);
-		assertThat(!usrs.getUsers().isEmpty() );
-		assertThat(usrs.getUsers().size() == 2 );
+		assertThat(usrs).isNotNull();
+		assertThat(usrs.getUsers()).isNotEmpty();
+		assertThat(usrs.getUsers()).hasSize(2);
 		verify(userRepository).findAll();
 		verify(userRepository,times(1)).findAll();
 	}
@@ -64,8 +66,8 @@ public class UserServiceImplTest {
 	    
 	    Users usrs =  userService.findAll();
 	    
-		assertThat(usrs != null);
-		assertThat(!usrs.getUsers().isEmpty() );
+		assertThat(usrs).isNotNull();
+		assertThat(usrs.getUsers()).isEmpty();
 		
 		verify(userRepository).findAll();
 		verify(userRepository,times(1)).findAll();
@@ -84,10 +86,15 @@ public class UserServiceImplTest {
 		   com.openmind.springjwt.springbootjwt.domain.User newlyCreatedUser = userService.createUser(user);
 		   
 		   User argumentCaptureUser = userCaptor.getValue();
+
+		   assertThat(newlyCreatedUser).isNotNull();
 		   
-		   assertThat(newlyCreatedUser.getUserName().equals( argumentCaptureUser.getName()));
-		   assertThat(newlyCreatedUser.getAuthorities().equals( argumentCaptureUser.getAuthorities()));
-		   assertThat(passwordEncoder.encode(user.getPassword()) .equals( argumentCaptureUser.getAuthorities()));
+		   assertThat(newlyCreatedUser.getUserName()).isEqualTo(argumentCaptureUser.getName());  // "password" = $2a$16$ogICtrfkUsk4tvXI5fCTmuPrQdGtVb9mUUqeh/vGZWIdU18/4s6vW
+		  // assertThat(passwordEncoder.encode("password")).isEqualTo(argumentCaptureUser.getPassword()); //$2a$16$diIq3JpHLJkz7ZamrAhO..8Ig9QJ0EmBG11ih4rC0iOhedQGupgrC
+		   assertThat(passwordEncoder.matches(passwordEncoder.encode("password"), argumentCaptureUser.getPassword()));
+		   assertThat(newlyCreatedUser.getAuthorities()).isEqualTo(argumentCaptureUser.getAuthorities());
+		   
+		   
 		   
 	}
 	

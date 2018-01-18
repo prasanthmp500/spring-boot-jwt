@@ -31,7 +31,7 @@ public class SpringBootJWTUserDetailsServiceImpl implements UserDetailsService {
 		UserBuilder userBuilder = org.springframework.security.core.userdetails.User.withUsername(userName);
 		String authorities = user.getAuthorities();
 
-		List<SimpleGrantedAuthority> authoritiesList = new ArrayList<SimpleGrantedAuthority>();
+		List<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
 
 		for (String authority : authorities.split(",")) {
 			authoritiesList.add(new SimpleGrantedAuthority(authority));

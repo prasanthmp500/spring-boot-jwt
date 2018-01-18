@@ -39,7 +39,8 @@ public class PetServiceImplTest {
 		when(petRepository.findAll()).thenReturn(pets);
 
 		List<Pet> allPets = petService.findAllPets();
-		assertThat(allPets.size() == 2);
+		assertThat(allPets).isNotNull();
+		assertThat(allPets).size().isEqualTo(2);
 		verify(petRepository).findAll();
 
 	}
@@ -52,8 +53,8 @@ public class PetServiceImplTest {
 		when(petRepository.findAll()).thenReturn(pets);
 
 		List<Pet> allPets = petService.findAllPets();
-		assertThat(allPets != null);
-		assertThat(allPets.size() == 0);
+		assertThat(allPets).isNotNull();
+		assertThat(allPets).size().isEqualTo(0);
 
 		verify(petRepository).findAll();
 

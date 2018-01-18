@@ -42,7 +42,8 @@ public class PetRepositoryTest {
 		iterable.forEach((e) -> {
 			pets.add(e);
 		});
-		assertThat(pets.size() == 2);
+		assertThat(pets).isNotNull();
+		assertThat(pets).size().isEqualTo(2);
 	}
 
 }

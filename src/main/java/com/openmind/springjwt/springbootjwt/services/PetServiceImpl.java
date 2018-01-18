@@ -22,10 +22,8 @@ public class PetServiceImpl implements PetService {
 	@Override
 	public List<Pet> findAllPets() {
 
-		final List<Pet> allPets = new ArrayList<Pet>();
-		petRepository.findAll().forEach((entity) -> {
-			allPets.add(entity);
-		});
+		final List<Pet> allPets = new ArrayList<>();
+		petRepository.findAll().forEach(allPets::add);
 		return allPets;
 	}
 

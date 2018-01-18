@@ -14,8 +14,7 @@ public class LoginUrlRequestMatcher implements RequestMatcher {
 	
 	@Override
 	public boolean matches(HttpServletRequest request) {
-		boolean value = request.getRequestURI().equals(uri);
-		return value;
+		return request.getRequestURI().equals(uri);
 	}
 
 }

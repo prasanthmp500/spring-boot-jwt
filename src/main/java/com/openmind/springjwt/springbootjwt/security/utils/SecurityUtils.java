@@ -10,9 +10,8 @@ public class SecurityUtils {
 	public SecurityUtils() {}
 	
 	@Bean
-	public BCryptPasswordEncoder bcrypPasswordEncoder() {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-		return encoder;
+	public BCryptPasswordEncoder bcryptPasswordEncoder() {
+		return new BCryptPasswordEncoder(16);
 	}
 	
 }
