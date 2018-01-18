@@ -23,15 +23,9 @@ public class PetServiceImpl implements PetService {
 	public List<Pet> findAllPets() {
 
 		final List<Pet> allPets = new ArrayList<Pet>();
-
-		Iterable<Pet> pets = petRepository.findAll();
-
-		pets.forEach((entity) -> {
-
+		petRepository.findAll().forEach((entity) -> {
 			allPets.add(entity);
-
 		});
-
 		return allPets;
 	}
 

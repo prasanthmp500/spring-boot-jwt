@@ -35,9 +35,7 @@ public class UserServiceImpl implements UserService {
 
 		final List<User> allUsers = new ArrayList<User>();
 
-		Iterable<com.openmind.springjwt.springbootjwt.jpa.entities.User> users = userRepository.findAll();
-
-		users.forEach((entity) -> {
+		userRepository.findAll().forEach((entity) -> {
 
 			User user = new User();
 			user.setId(entity.getId());
