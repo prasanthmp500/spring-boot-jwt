@@ -7,7 +7,7 @@ spring:
     maximumPoolSize: 10
     minimumIdlePoolSize: 3 
     idleConnectionTimeOut : 6000
-local:
-  server:
-    port:8888
-    
+
+management:
+  security:
+    enabled: false    
