@@ -5,9 +5,9 @@ import com.openmind.springjwt.springbootjwt.domain.Users;
 
 public interface UserService {
 
-	public abstract Users findAll();
-	
-	public abstract User createUser(User user);
-	
-	
+  public abstract Users findAll();
+
+  public abstract User createUser(User user);
+
+
 }

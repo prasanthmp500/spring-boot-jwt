@@ -2,29 +2,27 @@ package com.openmind.springjwt.springbootjwt.services;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.openmind.springjwt.springbootjwt.jpa.entities.Pet;
 import com.openmind.springjwt.springbootjwt.jpa.repository.PetRepository;
 
 @Service
 public class PetServiceImpl implements PetService {
 
-	private PetRepository petRepository;
+  private PetRepository petRepository;
 
-	@Autowired
-	public void setPetRepository(PetRepository petRepository) {
-		this.petRepository = petRepository;
-	}
+  @Autowired
+  public void setPetRepository(PetRepository petRepository) {
+    this.petRepository = petRepository;
+  }
 
-	@Override
-	public List<Pet> findAllPets() {
+  @Override
+  public List<Pet> findAllPets() {
 
-		final List<Pet> allPets = new ArrayList<>();
-		petRepository.findAll().forEach(allPets::add);
-		return allPets;
-	}
+    final List<Pet> allPets = new ArrayList<>();
+    petRepository.findAll().forEach(allPets::add);
+    return allPets;
+  }
 
 }

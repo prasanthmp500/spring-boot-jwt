@@ -5,66 +5,66 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("")
 public class User {
-	
-	public User() {}
-	
-	public User(String userName, String password, String authorities) {
-		super();
-		this.userName = userName;
-		this.password = password;
-		this.authorities = authorities;
-	}
 
-	public User(int id, String userName, String password, String authorities) {
-		this.id = id;
-		this.userName = userName;
-		this.password = password;
-		this.authorities = authorities;
-	}
+  public User() {}
 
-	@JsonProperty("user-id")
-	private int id;
-	
-	@JsonProperty("user-name")
-	private String userName;
-	
-	@JsonProperty("user-password")
-	private String password;
-	
-	@JsonProperty("user-authorities")
-	private String authorities;
+  public User(String userName, String password, String authorities) {
+    super();
+    this.userName = userName;
+    this.password = password;
+    this.authorities = authorities;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public User(int id, String userName, String password, String authorities) {
+    this.id = id;
+    this.userName = userName;
+    this.password = password;
+    this.authorities = authorities;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  @JsonProperty("user-id")
+  private int id;
 
-	public String getUserName() {
-		return userName;
-	}
+  @JsonProperty("user-name")
+  private String userName;
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  @JsonProperty("user-password")
+  private String password;
 
-	public String getPassword() {
-		return password;
-	}
+  @JsonProperty("user-authorities")
+  private String authorities;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public String getAuthorities() {
-		return authorities;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public void setAuthorities(String authorities) {
-		this.authorities = authorities;
-	}
-	
-	
+  public String getUserName() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getAuthorities() {
+    return authorities;
+  }
+
+  public void setAuthorities(String authorities) {
+    this.authorities = authorities;
+  }
+
+
 }

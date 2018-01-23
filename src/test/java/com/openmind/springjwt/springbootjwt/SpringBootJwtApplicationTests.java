@@ -12,30 +12,28 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
 import com.openmind.springjwt.springbootjwt.jpa.entities.Pet;
 import com.openmind.springjwt.springbootjwt.jpa.repository.PetRepository;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes= {SpringBootJwtApplication.class})
+@SpringBootTest(classes = {SpringBootJwtApplication.class})
 @DataJpaTest
 public class SpringBootJwtApplicationTests {
 
 
-	@MockBean
-	private PetRepository petRepository;
+  @MockBean
+  private PetRepository petRepository;
 
-	@Before
-	public void setup() {
-		Pet petcat = new Pet(1, "popuet", "cat");
-		Pet petdog = new Pet(2, "bruno", "dog");
-		petRepository.save(petcat);
-		petRepository.save(petdog);
+  @Before
+  public void setup() {
+    Pet petcat = new Pet(1, "popuet", "cat");
+    Pet petdog = new Pet(2, "bruno", "dog");
+    petRepository.save(petcat);
+    petRepository.save(petdog);
 
-	}
+  }
 
-	@Test
-	public void contextLoads() {
-	}
+  @Test
+  public void contextLoads() {}
 
 }

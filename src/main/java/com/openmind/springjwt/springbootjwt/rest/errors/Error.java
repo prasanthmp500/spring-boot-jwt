@@ -1,36 +1,36 @@
 package com.openmind.springjwt.springbootjwt.rest.errors;
 
 public class Error {
-	
-	private int error;
-	
-	private String message;
 
-	public Error(int error, String message) {
-		super();
-		this.error = error;
-		this.message = message;
-	}
+  private int error;
 
-	public int getError() {
-		return error;
-	}
+  private String message;
 
-	public void setError(int error) {
-		this.error = error;
-	}
+  public Error(int error, String message) {
+    super();
+    this.error = error;
+    this.message = message;
+  }
 
-	public String getMessage() {
-		return message;
-	}
+  public int getError() {
+    return error;
+  }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+  public void setError(int error) {
+    this.error = error;
+  }
 
-	@Override
-	public String toString() {
-		return "Error [error=" + error + ", message=" + message + "]";
-	}
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  @Override
+  public String toString() {
+    return "Error [error=" + error + ", message=" + message + "]";
+  }
 
 }

@@ -12,45 +12,42 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
 import com.openmind.springjwt.springbootjwt.security.utils.LoginUrlRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
-	private AuthenticationEntryPoint authenticationEntryPoint;
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-	
-		
-		http
-		.csrf().disable()
-		.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-		.and()
-		.authorizeRequests()
-		.antMatchers("/pets").authenticated()
-		.antMatchers(HttpMethod.GET,"/users").authenticated()
-		.antMatchers(HttpMethod.POST,"/users/create").permitAll()
-		.antMatchers(HttpMethod.POST,"/users/login").permitAll()
-		.and()
-		.addFilterBefore(new JwtLoginFilter(authenticationManager(), new LoginUrlRequestMatcher("/users/login")), BasicAuthenticationFilter.class)
-		.addFilterBefore( new JwtAuthorizationFilter( authenticationManager()),UsernamePasswordAuthenticationFilter.class);
-	}
-	
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-	}
-	
+
+  @Autowired
+  private BCryptPasswordEncoder passwordEncoder;
+
+  @Autowired
+  private UserDetailsService userDetailsService;
+
+  @Autowired
+  private AuthenticationEntryPoint authenticationEntryPoint;
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+
+
+    http.csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+        .and().authorizeRequests().antMatchers("/pets").authenticated()
+        .antMatchers(HttpMethod.GET, "/users").authenticated()
+        .antMatchers(HttpMethod.POST, "/users/create").permitAll()
+        .antMatchers(HttpMethod.POST, "/users/login").permitAll().and()
+        .addFilterBefore(
+            new JwtLoginFilter(authenticationManager(), new LoginUrlRequestMatcher("/users/login")),
+            BasicAuthenticationFilter.class)
+        .addFilterBefore(new JwtAuthorizationFilter(authenticationManager()),
+            UsernamePasswordAuthenticationFilter.class);
+  }
+
+
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+  }
+
 
 }
