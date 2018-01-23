@@ -1,7 +1,7 @@
 package com.openmind.springjwt.springbootjwt.controllers;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,7 +43,7 @@ public class PetsInformationResourceTest {
 	private MockMvc mvc;
 
 	@Test
-	public void showAllPets() throws Exception {
+	public void showAllPets_When_ThereArePets_ThenReturnList() throws Exception {
 
 		List<Pet> pets = new ArrayList<>();
 
@@ -55,12 +55,12 @@ public class PetsInformationResourceTest {
 		this.mvc.perform(get("/pets").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$", hasSize(2)))
-				.andExpect(jsonPath("$.[0].id", is(1)))
-				.andExpect(jsonPath("$.[0].name", is("doudou")))
-				.andExpect(jsonPath("$.[0].type", is("cat")))
-				.andExpect(jsonPath("$.[1].id", is(2)))
-				.andExpect(jsonPath("$.[1].name", is("bruno")))
-				.andExpect(jsonPath("$.[1].type", is("dog")));
+				.andExpect(jsonPath("$.[0].id", equalTo(1)))
+				.andExpect(jsonPath("$.[0].name", equalTo("doudou")))
+				.andExpect(jsonPath("$.[0].type", equalTo("cat")))
+				.andExpect(jsonPath("$.[1].id", equalTo(2)))
+				.andExpect(jsonPath("$.[1].name", equalTo("bruno")))
+				.andExpect(jsonPath("$.[1].type", equalTo("dog")));
 		
 		verify(petService).findAllPets();
 		
